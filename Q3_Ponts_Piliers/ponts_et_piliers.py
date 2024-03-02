@@ -16,9 +16,24 @@ def read_problem(input_file="input.txt"):
     file = open(input_file, "r")
     lines = file.readlines()
     file.close()
-    # TODO: Compléter ici/Complete here
-    # traiter les lignes du fichier pour le problème
-    # process the file lines for the problem
+
+
+
+
+    info = (lines[0].removesuffix("\n")).split()
+
+    nbPiliers = int(info[3])
+
+    piliers = [None]*nbPiliers
+
+    for i in range (nbPiliers):
+        piliers[i]=int(lines[i+1].removesuffix("\n"))
+        
+
+
+    return [info, piliers]
+
+
 
 
 def write(fileName, content):
@@ -33,9 +48,54 @@ def main(args):
     input_file = args[0]
     output_file = args[1]
 
-    # TODO : Compléter ici/Complete here...
-    # Vous pouvez découper votre code en d'autres fonctions...
-    # You may split your code in other functions...
+    input = read_problem(input_file)
+    info = input[0]
+    length = int(info[0])
+    minDist = int(info[1])
+    endsMinDist = int(info[2])
+    nbPiliers = int(info[3])
+
+    piliers = input[1]
+
+    possible = 0
+
+    if nbPiliers>0:
+
+        # Trier piliers
+        piliers.sort()
+
+
+        # Calculer distances entre les piliers
+        dist = [None]*(len(piliers)-1)
+
+        for i in range (len(dist)):
+            dist[i] = piliers[i+1]-piliers[i]
+
+        # Calculer la distance entre les piliers aux extrémités et la limite où ils peuvent être
+        endsDist = [piliers[0]-endsMinDist, length-piliers[-1]-endsMinDist]
+    
+
+
+        # piliers de plus entre les piliers existants
+        for d in dist:
+            if d >= 2*minDist:
+                
+                possible += d//minDist-1
+
+        # piliers de plus aux extremites
+        for d in endsDist:
+            if d >= minDist:
+                possible += d//minDist
+ 
+
+
+    else:       # 0 piliers
+
+        possible = (length-2*endsMinDist)//minDist+1
+
+    
+
+    write(output_file,str(possible))
 
 
 # NE PAS TOUCHER
