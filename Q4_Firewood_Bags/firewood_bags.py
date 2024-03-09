@@ -6,19 +6,21 @@ import sys
 
 
 def read_problem(input_file="input.txt"):
-    """Fonctions pour lire/écrire dans les fichier. Vous pouvez les modifier,
-    faire du parsing, rajouter une valeur de retour, mais n'utilisez pas
-    d'autres librairies.
-    Functions to read/write in files. you can modify them, do some parsing,
-    add a return value, but don't use other librairies"""
 
     # lecture du fichier/file reading
     file = open(input_file, "r")
     lines = file.readlines()
     file.close()
-    # TODO: Compléter ici/Complete here
-    # traiter les lignes du fichier pour le problème
-    # process the file lines for the problem
+
+
+    nbJours=int(lines[0].removesuffix('\n'))
+
+    ligneW = (lines[1].removesuffix("\n")).split()
+    W=[None]*len(ligneW)
+    for i in range (len(ligneW)):
+        W[i]=int(ligneW[i])
+
+    return [nbJours, W]
 
 
 def write(fileName, content):
@@ -33,9 +35,52 @@ def main(args):
     input_file = args[0]
     output_file = args[1]
 
-    # TODO : Compléter ici/Complete here...
-    # Vous pouvez découper votre code en d'autres fonctions...
-    # You may split your code in other functions...
+    info = read_problem(input_file)
+    nbJours = info[0]
+    W = info[1]
+
+    # find max[W]:
+    def max(array):
+        max = array[0]
+        for i in range (1, len(array)):
+            if array[i]>max:
+                max = array[i]
+        return max
+    
+    maxW = max(W)
+
+    # number of days the wood would last if we burn x logs/day
+    def daysLasting(x):
+        total = 0
+        for i in range (len(W)):
+            total+= math.ceil(W[i]/x)
+        return total
+    
+
+    if (len(W) == nbJours):
+        B = maxW
+
+    else:
+        minB = math.ceil(sum(W)/nbJours)
+
+        # binary search between minB and maxW
+        i = minB
+        j = maxW
+        x = j
+        while i != j:
+            x = (i+j)//2
+            if daysLasting(x) == nbJours:
+                j = x
+
+            elif daysLasting(x)<nbJours:
+                j = x
+
+            elif daysLasting(x)>nbJours:
+                i = x + 1
+
+        B = i
+
+    write(output_file, str(B))
 
 
 # NE PAS TOUCHER
