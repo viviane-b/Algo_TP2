@@ -1,5 +1,7 @@
-# Nom, Matricule
-# Nom, Matricule
+# Cassandre Hamel, 20210863
+# Viviane Binet, 20244728
+
+# Note: remis sur Kattis (voir screenshot)
 
 import math
 import sys

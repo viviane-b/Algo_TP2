@@ -1,5 +1,5 @@
-# Nom, Matricule
-# Nom, Matricule
+# Cassandre Hamel, 20210863
+# Viviane Binet, 20244728
 
 import math
 import sys
